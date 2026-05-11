@@ -1,4 +1,4 @@
-package com.example.Auth;
+package com.example.IM.Auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

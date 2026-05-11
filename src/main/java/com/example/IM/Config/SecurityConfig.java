@@ -1,5 +1,7 @@
-package com.example.Config;
+package com.example.IM.Config;
 
+import com.example.IM.Jwt.JwtAuthenticationFilter;
+import com.example.IM.Jwt.JwtAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,9 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import com.example.Jwt.JwtAuthenticationEntryPoint;
-import com.example.Jwt.JwtAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -28,6 +27,27 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+            .cors(cors -> cors.configurationSource(request -> {
+                var corsConfiguration = new org.springframework.web.cors.CorsConfiguration();
+                corsConfiguration.setAllowedOrigins(java.util.Arrays.asList(
+                    "http://localhost:3000",
+                    "http://localhost:5173"
+                ));
+                corsConfiguration.setAllowedMethods(java.util.Arrays.asList(
+                    "GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"
+                ));
+                corsConfiguration.setAllowedHeaders(java.util.Arrays.asList(
+                    "Authorization",
+                    "Content-Type",
+                    "Accept",
+                    "Origin",
+                    "X-Requested-With"
+                ));
+                corsConfiguration.setExposedHeaders(java.util.Arrays.asList("Authorization"));
+                corsConfiguration.setAllowCredentials(true);
+                corsConfiguration.setMaxAge(3600L);
+                return corsConfiguration;
+            }))
             .csrf(csrf -> csrf.disable())
             .exceptionHandling(exception -> exception
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
@@ -36,21 +56,15 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
             .authorizeHttpRequests(auth -> auth
-                // Endpoints públicos (no requieren autenticación)
                 .requestMatchers("/auth/**").permitAll()
                 .requestMatchers("/public/**").permitAll()
-                
-                // Endpoints por roles específicos
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/manager/**").hasAnyRole("ADMIN", "MANAGER")
-                
-                // Ejemplo para un CRUD de productos con diferentes permisos
                 .requestMatchers(HttpMethod.GET, "/api/products/**").hasAnyRole("ADMIN", "MANAGER", "USER")
                 .requestMatchers(HttpMethod.POST, "/api/products/**").hasAnyRole("ADMIN", "MANAGER")
                 .requestMatchers(HttpMethod.PUT, "/api/products/**").hasAnyRole("ADMIN", "MANAGER")
                 .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasRole("ADMIN")
-                
-                // Cualquier otra petición requiere autenticación
                 .anyRequest().authenticated()
             )
             .authenticationProvider(authenticationProvider)

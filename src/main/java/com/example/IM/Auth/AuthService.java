@@ -1,4 +1,4 @@
-package com.example.Auth;
+package com.example.IM.Auth;
 
 
 import lombok.RequiredArgsConstructor;
@@ -7,10 +7,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.Jwt.JwtService;
-import com.example.User.Role;
-import com.example.User.User;
-import com.example.User.UserRepository;
+import com.example.IM.Jwt.JwtService;
+import com.example.IM.User.Role;
+import com.example.IM.User.User;
+import com.example.IM.User.UserRepository;
 
 @Service
 @RequiredArgsConstructor

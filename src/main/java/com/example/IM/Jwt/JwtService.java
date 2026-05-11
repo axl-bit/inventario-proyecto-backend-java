@@ -1,4 +1,4 @@
-package com.example.Config;
+package com.example.IM.Jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

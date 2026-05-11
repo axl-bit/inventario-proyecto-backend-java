@@ -1,7 +1,7 @@
-package com.example.Auth;
+package com.example.IM.Auth;
 
 
-import com.example.User.Role;
+import com.example.IM.User.Role;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

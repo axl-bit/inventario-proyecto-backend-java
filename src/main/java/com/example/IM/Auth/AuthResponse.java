@@ -1,4 +1,4 @@
-package com.example.Auth;
+package com.example.IM.Auth;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

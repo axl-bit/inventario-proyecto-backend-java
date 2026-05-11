@@ -1,4 +1,4 @@
-package com.example.User;
+package com.example.IM.User;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.example.Jwt;
+package com.example.IM.Jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;

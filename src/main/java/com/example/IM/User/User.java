@@ -1,4 +1,4 @@
-package com.example.User;
+package com.example.IM.User;
 
 import jakarta.persistence.*;
 import lombok.*;
