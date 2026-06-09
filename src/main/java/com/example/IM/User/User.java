@@ -6,6 +6,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.example.IM.Empleado.Empleado;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -33,11 +35,11 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String email;
     
-    @Column(name = "nombres")
-    private String nombres;
+    @Column(name = "first_name")
+    private String firstName;
     
-    @Column(name = "apellidos")
-    private String apellidos;
+    @Column(name = "last_name")
+    private String lastName;
     
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -57,6 +59,10 @@ public class User implements UserDetails {
     @Builder.Default
     @Column(name = "credentials_non_expired")
     private boolean credentialsNonExpired = true;
+
+    // Relación opcional con Empleado (1:1)
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    private Empleado empleado;  // Importar com.example.IM.Empleado.Empleado
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

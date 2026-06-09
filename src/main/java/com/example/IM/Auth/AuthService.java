@@ -64,8 +64,8 @@ public class AuthService {
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .email(request.getEmail())
-                .nombres(request.getNombres())
-                .apellidos(request.getApellidos())
+                .firstName(request.getNombres())
+                .lastName(request.getApellidos())
                 .role(request.getRole() != null ? request.getRole() : Role.ADMIN)
                 .enabled(true)
                 .build();
