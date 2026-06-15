@@ -3,7 +3,10 @@ package com.example.IM.Empleado;
 import com.example.IM.Area.Area;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+<<<<<<< HEAD
 // import org.springframework.data.repository.query.Param;
+=======
+>>>>>>> 1d15f0faee93e2c6f287d3361d8bb27552185598
 import java.util.List;
 import java.util.Optional;
 

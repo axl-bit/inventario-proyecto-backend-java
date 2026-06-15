@@ -56,25 +56,74 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
             .authorizeHttpRequests(auth -> auth
+<<<<<<< HEAD
                 //==================== Publico =====================
+=======
+                // ==================== PÚBLICO ====================
+>>>>>>> 1d15f0faee93e2c6f287d3361d8bb27552185598
                 .requestMatchers("/auth/**").permitAll()
                 .requestMatchers("/public/**").permitAll()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
+<<<<<<< HEAD
                 //==================== Autorizados =====================
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/manager/**").hasAnyRole("ADMIN", "MANAGER")
 
                 //Estados
+=======
+                // ==================== CATÁLOGOS (GET público) ====================
+                // Estados
+>>>>>>> 1d15f0faee93e2c6f287d3361d8bb27552185598
                 .requestMatchers(HttpMethod.GET, "/api/estados/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/estados/**").hasAnyRole("ADMIN", "MANAGER")
                 .requestMatchers(HttpMethod.PUT, "/api/estados/**").hasAnyRole("ADMIN", "MANAGER")
                 .requestMatchers(HttpMethod.DELETE, "/api/estados/**").hasRole("ADMIN")
+<<<<<<< HEAD
                 //Areas
+=======
+
+                // Áreas
+>>>>>>> 1d15f0faee93e2c6f287d3361d8bb27552185598
                 .requestMatchers(HttpMethod.GET, "/api/areas/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/areas/**").hasAnyRole("ADMIN", "MANAGER")
                 .requestMatchers(HttpMethod.PUT, "/api/areas/**").hasAnyRole("ADMIN", "MANAGER")
                 .requestMatchers(HttpMethod.DELETE, "/api/areas/**").hasRole("ADMIN")
+<<<<<<< HEAD
+=======
+
+                // Tipos de Equipo (GET público para dropdowns)
+                .requestMatchers(HttpMethod.GET, "/api/tipos-equipo/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/tipos-equipo/**").hasAnyRole("ADMIN", "MANAGER")
+                .requestMatchers(HttpMethod.PUT, "/api/tipos-equipo/**").hasAnyRole("ADMIN", "MANAGER")
+                .requestMatchers(HttpMethod.DELETE, "/api/tipos-equipo/**").hasRole("ADMIN")
+
+                // Accesorios
+                .requestMatchers(HttpMethod.GET, "/api/accesorios/**").hasAnyRole("ADMIN", "MANAGER", "USER")
+                .requestMatchers(HttpMethod.POST, "/api/accesorios/**").hasAnyRole("ADMIN", "MANAGER")
+                .requestMatchers(HttpMethod.PUT, "/api/accesorios/**").hasAnyRole("ADMIN", "MANAGER")
+                .requestMatchers(HttpMethod.DELETE, "/api/accesorios/**").hasRole("ADMIN")
+
+                // ==================== EMPLEADOS ====================
+                .requestMatchers(HttpMethod.GET, "/api/empleados/**").hasAnyRole("ADMIN", "MANAGER", "USER")
+                .requestMatchers(HttpMethod.POST, "/api/empleados/**").hasAnyRole("ADMIN", "MANAGER")
+                .requestMatchers(HttpMethod.PUT, "/api/empleados/**").hasAnyRole("ADMIN", "MANAGER")
+                .requestMatchers(HttpMethod.DELETE, "/api/empleados/**").hasRole("ADMIN")
+
+                // ==================== EQUIPOS ====================
+                .requestMatchers(HttpMethod.GET, "/api/equipos/**").hasAnyRole("ADMIN", "MANAGER", "USER")
+                .requestMatchers(HttpMethod.POST, "/api/equipos/**").hasAnyRole("ADMIN", "MANAGER")
+                .requestMatchers(HttpMethod.PUT, "/api/equipos/**").hasAnyRole("ADMIN", "MANAGER")
+                .requestMatchers(HttpMethod.DELETE, "/api/equipos/**").hasRole("ADMIN")
+
+                // ==================== HISTORIAL ====================
+                .requestMatchers(HttpMethod.GET, "/api/historial/**").hasAnyRole("ADMIN", "MANAGER", "USER")
+
+                // ==================== ADMIN EXCLUSIVO ====================
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+
+                // ==================== CUALQUIER OTRA ====================
+>>>>>>> 1d15f0faee93e2c6f287d3361d8bb27552185598
                 .anyRequest().authenticated()
             )
             .authenticationProvider(authenticationProvider)

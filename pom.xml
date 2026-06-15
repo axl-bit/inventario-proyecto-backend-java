@@ -7,7 +7,10 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.2.5</version>
+<<<<<<< HEAD
 		 <!-- <version>3.5.14</version> -->
+=======
+>>>>>>> 1d15f0faee93e2c6f287d3361d8bb27552185598
 		<relativePath/>
 	</parent>
 	<groupId>inventory.management</groupId>

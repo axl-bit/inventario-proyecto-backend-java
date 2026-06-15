@@ -35,11 +35,19 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String email;
     
+<<<<<<< HEAD
     @Column(name = "first_name")
     private String firstName;
     
     @Column(name = "last_name")
     private String lastName;
+=======
+    @Column(name = "nombres")
+    private String nombres;
+    
+    @Column(name = "apellidos")
+    private String apellidos;
+>>>>>>> 1d15f0faee93e2c6f287d3361d8bb27552185598
     
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
