@@ -19,7 +19,7 @@ public class Accesorio {
     @Column(nullable = false, length = 100)
     private String nombre;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "estado_id", nullable = false)
     private Estado estado;
 

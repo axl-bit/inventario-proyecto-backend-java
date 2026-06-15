@@ -15,7 +15,7 @@ public class AreaService {
     }
     
     public List<Area> findActivos() {
-        return areaRepository.findByActivo('S');
+        return areaRepository.findByActivoTrue();
     }
     
     public List<Area> findBySede(String sede) {
@@ -44,7 +44,7 @@ public class AreaService {
     
     public void delete(Long id) {
         Area area = findById(id);
-        area.setActivo('N');
+        area.setActivo(false);
         areaRepository.save(area);
     }
 }

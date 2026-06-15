@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface AreaRepository extends JpaRepository<Area, Long> {
     
-    List<Area> findByActivo(Character activo);
+    List<Area> findByActivoTrue();
     
     Optional<Area> findByNombre(String nombre);
     

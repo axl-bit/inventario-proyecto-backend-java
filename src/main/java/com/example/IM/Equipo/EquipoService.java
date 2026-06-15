@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -62,18 +63,22 @@ public class EquipoService {
     public Equipo save(Equipo equipo) {
         validarEquipo(equipo);
         equipo.setFechaAlta(LocalDateTime.now());
+        
+        // Asegurar lista de accesorios no nula
+        if (equipo.getAccesorios() == null) {
+            equipo.setAccesorios(new ArrayList<>());
+        }
+        
         Equipo equipoGuardado = equipoRepository.save(equipo);
-        
-        // Registrar en el histórico
         registrarHistorico(equipoGuardado, equipo.getEmpleado(), "Asignación inicial");
-        
         return equipoGuardado;
     }
 
     @Transactional
     public Equipo update(Long id, Equipo equipoActualizado) {
         Equipo existente = findById(id);
-        
+
+        // Actualizar campos básicos
         existente.setMarca(equipoActualizado.getMarca());
         existente.setModelo(equipoActualizado.getModelo());
         existente.setSistemaOperativo(equipoActualizado.getSistemaOperativo());
@@ -88,18 +93,22 @@ public class EquipoService {
         existente.setActivo(equipoActualizado.getActivo());
         existente.setTipoEquipo(equipoActualizado.getTipoEquipo());
         existente.setEstado(equipoActualizado.getEstado());
-        existente.setAccesorio(equipoActualizado.getAccesorio());
-        
+
+        // Actualizar lista de accesorios (muchos a muchos)
+        if (equipoActualizado.getAccesorios() != null) {
+            existente.getAccesorios().clear();
+            existente.getAccesorios().addAll(equipoActualizado.getAccesorios());
+        }
+
         // Si cambió el empleado, registrar en histórico
         if (!existente.getEmpleado().getId().equals(equipoActualizado.getEmpleado().getId())) {
-            // Cerrar asignación anterior
             historicoService.registrarDevolucion(existente.getId());
-            // Asignar nuevo empleado
             existente.setEmpleado(equipoActualizado.getEmpleado());
-            // Registrar nueva asignación
             registrarHistorico(existente, equipoActualizado.getEmpleado(), "Reasignación");
+        } else {
+            existente.setEmpleado(equipoActualizado.getEmpleado());
         }
-        
+
         return equipoRepository.save(existente);
     }
 
@@ -108,41 +117,29 @@ public class EquipoService {
         Equipo equipo = findById(id);
         equipo.setActivo(false);
         equipo.setFechaBaja(LocalDateTime.now());
-        // Cerrar asignación activa en histórico
         historicoService.registrarDevolucion(equipo.getId());
         equipoRepository.save(equipo);
     }
 
-    // Asignar equipo a un empleado
     @Transactional
     public Equipo asignarEmpleado(Long equipoId, Long empleadoId, String observaciones) {
         Equipo equipo = findById(equipoId);
         Empleado empleado = empleadoService.findById(empleadoId);
-        
-        // Cerrar asignación actual si existe
+
         historicoService.registrarDevolucion(equipoId);
-        
-        // Asignar nuevo empleado
         equipo.setEmpleado(empleado);
         equipoRepository.save(equipo);
-        
-        // Registrar en histórico
         registrarHistorico(equipo, empleado, observaciones);
-        
+
         return equipo;
     }
 
-    // Devolver equipo (desasignar)
     @Transactional
     public Equipo devolverEquipo(Long equipoId, String observaciones) {
         Equipo equipo = findById(equipoId);
-        
-        // Cerrar asignación en histórico
         historicoService.registrarDevolucion(equipoId);
-        
         equipo.setFechaBaja(LocalDateTime.now());
         equipo.setActivo(false);
-        
         return equipoRepository.save(equipo);
     }
 

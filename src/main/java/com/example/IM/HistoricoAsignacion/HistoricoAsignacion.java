@@ -2,6 +2,7 @@ package com.example.IM.HistoricoAsignacion;
 
 import com.example.IM.Empleado.Empleado;
 import com.example.IM.Equipo.Equipo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,12 +20,14 @@ public class HistoricoAsignacion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "equipo_id", nullable = false)
+    @JsonIgnoreProperties({"historialAsignaciones", "hibernateLazyInitializer", "handler"})
     private Equipo equipo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "empleado_id", nullable = false)
+    @JsonIgnoreProperties({"historialAsignaciones", "hibernateLazyInitializer", "handler"})
     private Empleado empleado;
 
     @Column(name = "fecha_asignacion", nullable = false)

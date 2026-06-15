@@ -15,7 +15,7 @@ public class EstadoService {
     }
     
     public List<Estado> findActivos() {
-        return estadoRepository.findByActivo('S');
+        return estadoRepository.findByActivoTrue();
     }
     
     public Estado findById(Long id) {
@@ -39,7 +39,7 @@ public class EstadoService {
     
     public void delete(Long id) {
         Estado estado = findById(id);
-        estado.setActivo('N');
+        estado.setActivo(false);   // antes era 'N'
         estadoRepository.save(estado);
     }
 }

@@ -5,6 +5,7 @@ import com.example.IM.Empleado.Empleado;
 import com.example.IM.Estado.Estado;
 import com.example.IM.HistoricoAsignacion.HistoricoAsignacion;
 import com.example.IM.TipoEquipo.TipoEquipo;
+// import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -66,27 +67,32 @@ public class Equipo {
     @Builder.Default
     private Boolean activo = true;
 
-    // FK: Empleado asignado actualmente
-    @ManyToOne(fetch = FetchType.LAZY)
+    // FK: Empleado
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "empleado_id", nullable = false)
     private Empleado empleado;
 
     // FK: Tipo de equipo
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "tipo_equipo_id", nullable = false)
     private TipoEquipo tipoEquipo;
 
-    // FK: Estado del equipo
-    @ManyToOne(fetch = FetchType.LAZY)
+    // FK: Estado
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "estado_id", nullable = false)
     private Estado estado;
 
-    // FK: Accesorio (1:1 por ahora)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "accesorio_id", nullable = false)
-    private Accesorio accesorio;
+    // Cambio: muchos a muchos con Accesorio
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "equipo_accesorio",
+        joinColumns = @JoinColumn(name = "equipo_id"),
+        inverseJoinColumns = @JoinColumn(name = "accesorio_id")
+    )
+    @Builder.Default
+    private List<Accesorio> accesorios = new ArrayList<>();
 
-    // Historial de asignaciones (1:N)
+    // Historial
     @OneToMany(mappedBy = "equipo", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<HistoricoAsignacion> historialAsignaciones = new ArrayList<>();

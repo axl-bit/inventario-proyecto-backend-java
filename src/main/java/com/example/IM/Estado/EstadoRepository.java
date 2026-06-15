@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface EstadoRepository extends JpaRepository<Estado, Long> {
     
-    List<Estado> findByActivo(Character activo);
+    List<Estado> findByActivoTrue();
     
     Optional<Estado> findByNombre(String nombre);
     

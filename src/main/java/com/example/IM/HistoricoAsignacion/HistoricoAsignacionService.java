@@ -13,6 +13,10 @@ public class HistoricoAsignacionService {
 
     private final HistoricoAsignacionRepository historicoRepository;
 
+    public List<HistoricoAsignacion> findAll() {
+        return historicoRepository.findAll();
+    }
+
     public List<HistoricoAsignacion> findHistorialByEquipo(Long equipoId) {
         return historicoRepository.findByEquipoIdOrderByFechaAsignacionDesc(equipoId);
     }

@@ -21,5 +21,5 @@ public class Estado {
     
     @Column(name = "c_activo", length = 1)
     @Builder.Default
-    private Character activo = 'S';
+    private Boolean activo = true; 
 }

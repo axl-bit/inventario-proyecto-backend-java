@@ -24,5 +24,5 @@ public class Area {
     
     @Column(name = "c_activo", length = 1)
     @Builder.Default
-    private Character activo = 'S';
+    private Boolean activo = true;
 }

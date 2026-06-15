@@ -7,6 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.IM.Empleado.Empleado;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Collection;
 import java.util.List;
@@ -35,19 +36,16 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String email;
     
-<<<<<<< HEAD
     @Column(name = "first_name")
     private String firstName;
     
     @Column(name = "last_name")
     private String lastName;
-=======
     @Column(name = "nombres")
     private String nombres;
     
     @Column(name = "apellidos")
     private String apellidos;
->>>>>>> 1d15f0faee93e2c6f287d3361d8bb27552185598
     
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -69,7 +67,8 @@ public class User implements UserDetails {
     private boolean credentialsNonExpired = true;
 
     // Relación opcional con Empleado (1:1)
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
+    @JsonIgnoreProperties({"user", "hibernateLazyInitializer", "handler"})
     private Empleado empleado;  // Importar com.example.IM.Empleado.Empleado
 
     @Override

@@ -13,6 +13,11 @@ public class HistoricoAsignacionController {
 
     private final HistoricoAsignacionService historicoService;
 
+    @GetMapping
+    public ResponseEntity<List<HistoricoAsignacion>> findAll() {
+        return ResponseEntity.ok(historicoService.findAll());
+    }
+
     // Historial completo de un equipo
     @GetMapping("/equipo/{equipoId}")
     public ResponseEntity<List<HistoricoAsignacion>> historialPorEquipo(@PathVariable Long equipoId) {

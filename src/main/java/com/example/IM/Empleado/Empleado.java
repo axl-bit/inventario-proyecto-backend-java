@@ -2,6 +2,8 @@ package com.example.IM.Empleado;
 
 import com.example.IM.Area.Area;
 import com.example.IM.User.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -32,12 +34,13 @@ public class Empleado {
     private LocalDateTime fechaAlta = LocalDateTime.now();
 
     // Relación con Area (muchos empleados pertenecen a un área)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "area_id", nullable = false)
     private Area area;
 
     // Relación opcional con User (1:1). Si es null, el empleado no tiene acceso al sistema.
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", unique = true)
+    @JsonIgnoreProperties({"empleado", "hibernateLazyInitializer", "handler"})
     private User user;
 }
